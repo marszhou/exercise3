@@ -48,27 +48,37 @@ class App extends Component {
   render() {
     return (
       <div>
-        <form ref={form => this.form = form}>
+        <form ref={form => (this.form = form)}>
+          {/*因为input type=file的样子在各个浏览器上都不同，所以很难设置演示，通过代理按钮的方式触发选择*/}
+          <button type="button" onClick={() => this.file.current.click()}>
+            选择文件
+          </button>
           <input
             type="file"
             ref={this.file}
             accept="image/*"
             multiple
             onChange={this.handleFileChange}
+            style={{ display: 'none' }}
           />
+
           <button type="button" onClick={this.handleUpload}>
-            upload
+            开始上传
           </button>
         </form>
 
         {this.state.uploads.length > 0 ? (
           <div>
-            <p>待上传</p>
+            <p>待上传：{this.state.uploads.length}个文件</p>
             {this.state.uploads.map((data, i) => (
               <img
                 key={i}
                 src={data}
-                style={{ maxWidth: 300, maxHeight: 300, border: '5px solid lightgray' }}
+                style={{
+                  maxWidth: 300,
+                  maxHeight: 300,
+                  border: '5px solid lightgray'
+                }}
               />
             ))}
           </div>
@@ -81,7 +91,11 @@ class App extends Component {
               <img
                 key={i}
                 src={'http://localhost:8080' + url}
-                style={{ maxWidth: 300, maxHeight: 300, border: '5px solid green' }}
+                style={{
+                  maxWidth: 300,
+                  maxHeight: 300,
+                  border: '5px solid green'
+                }}
               />
             ))}
           </div>
